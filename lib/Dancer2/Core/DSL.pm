@@ -86,6 +86,7 @@ sub dsl_keywords {
         route_parameters     => { is_global => 0 },
         pass                 => { is_global => 0 },
         patch                => { is_global => 1 },
+        query                => { is_global => 1 },
         path                 => { is_global => 1 },
         post                 => { is_global => 1 },
         prefix               => { is_global => 1 },
@@ -217,6 +218,7 @@ sub get     { shift->_normalize_route( [qw/get head/], @_ ) }
 sub options { shift->_normalize_route( [qw/options /], @_ ) }
 sub patch   { shift->_normalize_route( [qw/patch   /], @_ ) }
 sub post    { shift->_normalize_route( [qw/post    /], @_ ) }
+sub query   { shift->_normalize_route( [qw/query   /], @_ ) }
 sub put     { shift->_normalize_route( [qw/put     /], @_ ) }
 
 sub prepare_app { push @{ shift->app->prep_apps }, @_ }

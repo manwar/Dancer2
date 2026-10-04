@@ -203,7 +203,7 @@ sub deserialize {
     # rather the behaviour is undefined. Take the most lenient route and
     # deserialize any content on delete as well.
     return
-      unless grep { $self->method eq $_ } qw/ PUT POST PATCH DELETE /;
+      unless grep { $self->method eq $_ } qw/ PUT POST QUERY PATCH DELETE /;
 
     # try to deserialize
     my $body = $self->body;
@@ -898,6 +898,10 @@ Return true if the method requested by the client is 'HEAD'
 =method is_post
 
 Return true if the method requested by the client is 'POST'
+
+=method is_query
+
+Return true if the method requested by the client is 'QUERY'
 
 =method is_put
 

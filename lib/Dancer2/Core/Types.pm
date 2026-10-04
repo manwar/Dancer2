@@ -10,7 +10,7 @@ use Sub::Quote 'quote_sub';
 BEGIN { extends "Types::Standard" };
 
 our %supported_http_methods = map +( $_ => 1 ), qw<
-    GET HEAD POST PUT DELETE OPTIONS PATCH
+    GET HEAD POST PUT DELETE OPTIONS PATCH QUERY
 >;
 
 my $single_part = qr/
