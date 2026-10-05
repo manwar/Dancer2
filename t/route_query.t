@@ -3,6 +3,7 @@ use warnings;
 use Test::More;
 use Plack::Test;
 use HTTP::Request;
+use Dancer2::Core::Request;
 
 # Package 1: Standard app (no serialiser) for text & form endpoints
 {
@@ -24,6 +25,10 @@ use HTTP::Request;
 
     query '/query-only' => sub {
         return 'only query allowed';
+    };
+
+    any '/all-methods' => sub {
+        return request->method;
     };
 }
 
@@ -97,6 +102,34 @@ subtest 'HTTP method matching isolation' => sub {
     my $res_query = $test_std->request($req_query);
 
     is( $res_query->code, 200, 'QUERY request succeeds on query route' );
+};
+
+subtest 'Request is_query predicate' => sub {
+    can_ok( 'Dancer2::Core::Request', 'is_query' );
+    return unless Dancer2::Core::Request->can('is_query');
+
+    for my $method ( qw/ QUERY GET HEAD POST PUT DELETE OPTIONS PATCH / ) {
+        my $req = Dancer2::Core::Request->new(
+            env => { REQUEST_METHOD => $method },
+        );
+
+        if ( $method eq 'QUERY' ) {
+            ok( $req->is_query, 'is_query is true for QUERY requests' );
+        }
+        else {
+            ok( !$req->is_query, "is_query is false for $method requests" );
+        }
+    }
+};
+
+subtest 'Default any route accepts QUERY' => sub {
+    for my $method ( qw/ GET QUERY / ) {
+        my $req = HTTP::Request->new( $method => '/all-methods' );
+        my $res = $test_std->request($req);
+
+        is( $res->code, 200, "$method request succeeds on default any route" );
+        is( $res->content, $method, "Default any handler receives $method request" );
+    }
 };
 
 done_testing;

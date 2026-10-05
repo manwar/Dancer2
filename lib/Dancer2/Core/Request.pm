@@ -248,6 +248,7 @@ sub uri        { $_[0]->request_uri }
 
 sub is_head    { $_[0]->method eq 'HEAD' }
 sub is_post    { $_[0]->method eq 'POST' }
+sub is_query   { $_[0]->method eq 'QUERY' }
 sub is_get     { $_[0]->method eq 'GET' }
 sub is_put     { $_[0]->method eq 'PUT' }
 sub is_delete  { $_[0]->method eq 'DELETE' }
