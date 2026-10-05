@@ -86,10 +86,10 @@ sub dsl_keywords {
         route_parameters     => { is_global => 0 },
         pass                 => { is_global => 0 },
         patch                => { is_global => 1 },
-        query                => { is_global => 1 },
         path                 => { is_global => 1 },
         post                 => { is_global => 1 },
         prefix               => { is_global => 1 },
+        query                => { is_global => 1 },
         prepare_app          => {
             is_global => 1, prototype => '&',
         },
@@ -232,7 +232,7 @@ sub any {
         s/^del$/delete/ for @{ $_[0] };
     }
     else {
-        unshift @_, [qw/delete get head options patch post put/];
+        unshift @_, [qw/delete get head options patch post put query/];
     }
 
     $self->_normalize_route(@_);
